@@ -1,8 +1,2 @@
 .DS_Store
 .dist/
-
-# Large project artifacts (not source code)
-labeled_dataset/
-models/
-test_images/
-test_results/
