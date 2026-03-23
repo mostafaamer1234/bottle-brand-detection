@@ -38,6 +38,7 @@ Using `test_results/detection_summary.csv`:
 Sample detection image:
 
 ![Sample Result - Branded Bottle Detection](test_results/IMG_9091_detected.png)
+![Sample Result - Generic Bottle Detection](test_results/IMG_9103_detected.png)
 
 ## Project Demo Recording
 
