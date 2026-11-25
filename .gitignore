@@ -8,3 +8,5 @@ runs/
 *.onnx
 .venv/
 __pycache__/
+!site/bottles.onnx
+.vercel

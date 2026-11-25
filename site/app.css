@@ -1,0 +1,35 @@
+:root { --branded: #0071e3; --generic: #c93400; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --branded: #2997ff; --generic: #ff9f0a; } }
+
+.stage { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 40px; align-items: start; }
+.frame { position: relative; background: var(--bg-alt); border-radius: var(--radius); overflow: hidden; display: grid; place-items: center; min-height: 360px; }
+#view { display: block; max-width: 100%; max-height: 72vh; width: auto; height: auto; }
+.loading { position: absolute; inset: auto 0 16px; text-align: center; font-size: 13px; color: var(--ink-2); margin: 0; }
+
+.panel { position: sticky; top: 72px; }
+.panel .q-caps { margin: 0 0 12px; }
+.det { display: flex; justify-content: space-between; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--hair-soft); }
+.det:last-child { border-bottom: 1px solid var(--hair-soft); }
+.det b { font-size: 21px; font-weight: 600; letter-spacing: -0.02em; }
+.det b.branded { color: var(--branded); }
+.det b.generic { color: var(--generic); }
+.det span { font-size: 21px; font-variant-numeric: tabular-nums; color: var(--ink-2); }
+#dets .q-small { margin: 0; padding: 14px 0; border-top: 1px solid var(--hair-soft); }
+#speed { margin: 10px 0 24px; min-height: 1.4em; }
+.upload { margin-bottom: 24px; }
+.thr { padding: 6px 0 10px; }
+
+.strip-label { margin: 40px 0 12px; }
+.strip { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 8px; scrollbar-width: thin; }
+.strip button { flex: none; width: 66px; height: 88px; padding: 0; border: 0; border-radius: 10px; overflow: hidden; cursor: pointer;
+  background: var(--bg-alt); opacity: .55; transition: opacity .2s, box-shadow .2s; }
+.strip button:hover { opacity: .85; }
+.strip button[aria-pressed="true"] { opacity: 1; box-shadow: 0 0 0 2px var(--ink); }
+.strip img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.caveat { margin-top: 24px; max-width: 80ch; }
+
+@media (max-width: 860px) {
+  .stage { grid-template-columns: 1fr; gap: 24px; }
+  .panel { position: static; }
+  #view { max-height: 60vh; }
+}
