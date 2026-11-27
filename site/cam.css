@@ -1,0 +1,55 @@
+/* Bottle Detector: a camera viewfinder. Black chrome, yellow focus brackets, HUD type. */
+:root { --y: #ffd60a; --branded: #ff375f; --generic: #30d158; --ink: #f5f5f7; --ink-2: #a1a1a6; --glass: rgba(28, 28, 30, 0.72); --font: "Space Grotesk", -apple-system, sans-serif; color-scheme: dark; }
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: #000; color: var(--ink); font: 14px/1.4 var(--font); }
+button, input { font: inherit; color: inherit; }
+.cam { display: flex; flex-direction: column; height: 100dvh; }
+
+.hud-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: max(10px, env(safe-area-inset-top)) 16px 10px; }
+.name { font-weight: 700; letter-spacing: 0.18em; font-size: 13px; color: var(--ink); text-decoration: none; }
+.name span { color: var(--y); margin: 0 2px; }
+.readout { display: flex; gap: 10px; font: 600 11px var(--font); letter-spacing: 0.16em; }
+.readout span:first-child { color: #000; background: var(--y); padding: 3px 8px; border-radius: 4px; }
+.readout span:last-child { color: var(--ink-2); padding: 3px 0; font-variant-numeric: tabular-nums; }
+.hud-top nav { display: flex; gap: 14px; font-size: 13px; }
+.hud-top nav a { color: var(--ink-2); text-decoration: none; } .hud-top nav a:hover { color: var(--y); }
+
+.finder { position: relative; flex: 1; min-height: 0; margin: 0 12px; border-radius: 22px; overflow: hidden; background: #0b0b0c; display: grid; place-items: center; }
+#video { display: none; }
+#view { max-width: 100%; max-height: 100%; display: block; }
+.corner { position: absolute; width: 34px; height: 34px; border: 3px solid var(--y); pointer-events: none; opacity: 0.9; }
+.tl { top: 16px; left: 16px; border-right: 0; border-bottom: 0; border-top-left-radius: 10px; }
+.tr { top: 16px; right: 16px; border-left: 0; border-bottom: 0; border-top-right-radius: 10px; }
+.bl { bottom: 16px; left: 16px; border-right: 0; border-top: 0; border-bottom-left-radius: 10px; }
+.br { bottom: 16px; right: 16px; border-left: 0; border-top: 0; border-bottom-right-radius: 10px; }
+.status { position: absolute; top: 22px; left: 50%; transform: translateX(-50%); background: var(--glass); backdrop-filter: blur(14px); padding: 6px 14px; border-radius: 999px; font-size: 13px; color: var(--ink); white-space: nowrap; max-width: calc(100% - 120px); overflow: hidden; text-overflow: ellipsis; }
+.status:empty { display: none; }
+.tally { position: absolute; bottom: 22px; left: 50%; transform: translateX(-50%); display: flex; gap: 8px; }
+.tally span { display: inline-flex; align-items: center; gap: 8px; background: var(--glass); backdrop-filter: blur(14px); padding: 7px 14px; border-radius: 999px; font-weight: 600; font-size: 14px; }
+.tally i { width: 10px; height: 10px; border-radius: 50%; }
+
+.controls { padding: 14px 16px max(14px, env(safe-area-inset-bottom)); display: grid; gap: 14px; }
+.thr { display: grid; grid-template-columns: auto 1fr 44px; gap: 12px; align-items: center; max-width: 520px; width: 100%; margin: 0 auto; font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-2); }
+.thr input { accent-color: var(--y); width: 100%; }
+.thr output { color: var(--y); font-weight: 700; text-align: right; font-variant-numeric: tabular-nums; }
+.buttons { display: flex; justify-content: center; align-items: center; gap: 46px; }
+.round { display: flex; flex-direction: column; align-items: center; gap: 4px; border: 0; background: none; cursor: pointer; color: var(--ink); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
+.round svg { width: 46px; height: 46px; padding: 11px; border-radius: 50%; background: #1c1c1e; fill: none; stroke: var(--ink); stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.round:hover svg { background: #2c2c2e; }
+.round:disabled { opacity: 0.35; cursor: default; }
+.shutter { width: 76px; height: 76px; border-radius: 50%; border: 4px solid var(--ink); background: none; padding: 5px; cursor: pointer; }
+.shutter i { display: block; width: 100%; height: 100%; border-radius: 50%; background: var(--ink); transition: all 0.2s; }
+.shutter[aria-pressed="true"] i { background: var(--branded); border-radius: 10px; transform: scale(0.55); }
+.roll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; justify-content: safe center; }
+.roll button { flex: none; width: 54px; height: 54px; border-radius: 10px; overflow: hidden; border: 2px solid transparent; padding: 0; cursor: pointer; background: #1c1c1e; }
+.roll button[aria-pressed="true"] { border-color: var(--y); }
+.roll img { width: 100%; height: 100%; object-fit: cover; display: block; }
+@media (min-width: 900px) {
+  .cam { display: grid; grid-template-columns: minmax(0, 1fr) 300px; grid-template-rows: auto minmax(0, 1fr); }
+  .hud-top { grid-column: 1 / -1; }
+  .finder { margin: 0 0 16px 16px; }
+  .controls { align-content: center; padding: 0 20px 16px; }
+  .roll { display: grid; grid-template-columns: repeat(4, 1fr); overflow: visible; }
+  .roll button { width: auto; height: auto; aspect-ratio: 1; }
+  .buttons { gap: 30px; }
+}

@@ -3,7 +3,7 @@
 This project builds a full computer vision pipeline that detects and classifies **branded** vs **generic** bottles from real-world images using **YOLOv2** in MATLAB.  
 From data collection and labeling to model training and inference, the system was designed and evaluated end-to-end with measurable outcomes.
 
-**Live demo: [bottle-detector-yolo.vercel.app](https://bottle-detector-yolo.vercel.app)**. The trained YOLO11n model runs in your browser with ONNX Runtime Web: try the 20 held-out test photos or your own. The page lives in `site/`.
+**Try it: [bottle-detector-yolo.vercel.app](https://bottle-detector-yolo.vercel.app)**. A camera app: point your phone at a bottle and the trained YOLO11n model labels it branded or generic live, on your device, or use a photo or the 20 held-out test images. Results are at [/about](https://bottle-detector-yolo.vercel.app/about).
 
 
 ## Why this project matters
