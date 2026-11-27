@@ -1,2 +1,12 @@
 .DS_Store
 .dist/
+
+# Python port artifacts
+yolo_dataset/
+runs/
+*.pt
+*.onnx
+.venv/
+__pycache__/
+!site/bottles.onnx
+.vercel

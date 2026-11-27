@@ -1,9 +1,10 @@
 # Branded vs Generic Bottle Detection (YOLOv2 + MATLAB)
 
-**Live demo: [bottle-detector-yolo.vercel.app](https://bottle-detector-yolo.vercel.app)**. A trained YOLO11n model runs in your browser with ONNX Runtime Web: try the held-out test photos or your own.
-
 This project builds a full computer vision pipeline that detects and classifies **branded** vs **generic** bottles from real-world images using **YOLOv2** in MATLAB.  
 From data collection and labeling to model training and inference, the system was designed and evaluated end-to-end with measurable outcomes.
+
+**Try it: [bottle-detector-yolo.vercel.app](https://bottle-detector-yolo.vercel.app)**. A camera app: point your phone at a bottle and the trained YOLO11n model labels it branded or generic live, on your device, or use a photo or the 20 held-out test images. Results are at [/about](https://bottle-detector-yolo.vercel.app/about).
+
 
 ## Why this project matters
 
@@ -132,3 +133,34 @@ finalProject/
 ## Context
 
 Created as part of **CMPSC 489** (Dec 2025), with a focus on applying modern object detection workflows to a custom real-world classification task.
+
+
+## Python port: YOLO11 with mAP evaluation
+
+The MATLAB YOLOv2 pipeline above reports image-level success. To measure detection quality with standard metrics, `python/` ports the project to **Ultralytics YOLO11**, using the same 123 hand-labeled images.
+
+1. `convert_labels.py` decodes the MATLAB Image Labeler `groundTruth` object directly with `mat-io`, so no MATLAB is needed. It converts the `[x, y, w, h]` boxes to YOLO format and keeps the pixel frame MATLAB labeled in by dropping EXIF rotation. All 123 boxes were verified to be in bounds.
+2. `train_yolo11.py` trains YOLO11n (Apple-silicon GPU, CUDA or CPU), evaluates on a held-out 20% split (25 images), and exports ONNX.
+
+Held-out validation results (25 images):
+
+| Model | mAP@0.5 | mAP@0.5:0.95 | Precision | Recall |
+|---|---|---|---|---|
+| YOLO11n (80 epochs, 640 px) | 0.995 | 0.807 | 0.995 | 1.000 |
+
+| Validation predictions | Precision–recall |
+|---|---|
+| ![YOLO11n predictions on held-out images](results/yolo11n_val_predictions.jpg) | ![PR curve](results/yolo11n_pr_curve.png) |
+
+**Caveats:**
+- The dataset is small (123 images, one branded product, similar indoor scenes), and photos from the same session can appear in both splits.
+- The near-perfect mAP@0.5 therefore says more about this narrow setting than about real-world brand detection.
+- The stricter mAP@0.5:0.95 of 0.807 shows there is still room to tighten the boxes.
+- Next steps: more brands, outdoor scenes, and a split grouped by capture session.
+
+```bash
+pip install -r python/requirements.txt
+python python/convert_labels.py --out yolo_dataset
+python python/train_yolo11.py --data yolo_dataset/data.yaml
+pytest -q python
+```
